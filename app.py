@@ -1,0 +1,54 @@
+from fastapi import Body, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from db import Mongo
+from devices.test_barrier import testbarrier
+from devices.test_scales import testscales
+from handlers import handle_not_found
+
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS", "PATCH", "DELETE", "PUT"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/devices", description="Получение списка всех устройств")
+async def get_all_devices():
+    return await Mongo.get_all()
+
+
+@app.get("/devices/{device_id}", description="Получение данных об устройстве по id")
+async def get_device_by_id(device_id: str):
+    with handle_not_found():
+        device = await Mongo.get_by_id(device_id)
+        match device["type"]:
+            case "scales":
+                device["data"] = {"weight": testscales.get_current_weight()}
+            case "barrier":
+                device["data"] = {"state": testbarrier.check_state()}
+            case _:
+                raise ValueError("No instructions for device")
+    return device
+
+
+@app.post("/devices/{device_id}", description="Отправка устройству команды на действие")
+async def startup_action(device_id: str):
+    with handle_not_found():
+        device = await Mongo.get_by_id(device_id)
+        match device["type"]:
+            case "scales":
+                device["data"] = {"weight": testscales.check_weight()}
+            case "barrier":
+                device["data"] = {"state": testbarrier.change_state()}
+            case _:
+                raise ValueError("No instructions for device")
+    return device
+
+
+@app.on_event("startup")
+async def test_start_app():
+    await Mongo.test_fill_db()
