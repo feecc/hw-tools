@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "feecc_hw_tools"
+version = "0.0.1"
+description = ""
+authors = ["zemljanichka <belkazarina@mail.ru>"]
+readme = "README.md"
+packages = [{include = "feecc_hw_tools"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.101.0"
+motor = "^3.2.0"
+pyserial = "^3.5"
+uvicorn = "^0.23.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+mypy = "^1.4.1"
+flake8 = "^6.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+exclude = "__init__.py"

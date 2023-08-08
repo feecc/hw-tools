@@ -1,10 +1,12 @@
+import os
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
 
 
 class _MongoWrapper:
-    def __init__(self, url: str) -> None:
-        self.db: AsyncIOMotorDatabase = AsyncIOMotorClient(url)["db"]
+    def __init__(self) -> None:
+        uri = os.environ.get('MONGO_CONN_STR', 'mongodb://admin:admin@localhost:27017')
+        self.db: AsyncIOMotorDatabase = AsyncIOMotorClient(uri)["db"]
 
         self.devices_collection: AsyncIOMotorCollection = self.db["devices"]
 
@@ -32,4 +34,4 @@ class _MongoWrapper:
         return self._prepare_data(data)
 
 
-Mongo = _MongoWrapper(url="mongodb://admin:admin@localhost:27017")
+Mongo = _MongoWrapper()

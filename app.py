@@ -1,9 +1,9 @@
-from fastapi import Body, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from db import Mongo
-from devices.test_barrier import testbarrier
-from devices.test_scales import testscales
+from devices.virtual.test_scales import testscales
 from handlers import handle_not_found
+from action_port import action_barrier
 
 
 app = FastAPI()
@@ -29,7 +29,7 @@ async def get_device_by_id(device_id: str):
             case "scales":
                 device["data"] = {"weight": testscales.get_current_weight()}
             case "barrier":
-                device["data"] = {"state": testbarrier.check_state()}
+                device["data"] = {"state": action_barrier("state")}
             case _:
                 raise ValueError("No instructions for device")
     return device
@@ -43,7 +43,7 @@ async def startup_action(device_id: str):
             case "scales":
                 device["data"] = {"weight": testscales.check_weight()}
             case "barrier":
-                device["data"] = {"state": testbarrier.change_state()}
+                device["data"] = {"state": action_barrier("change")}
             case _:
                 raise ValueError("No instructions for device")
     return device

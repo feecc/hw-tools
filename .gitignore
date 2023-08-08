@@ -1,3 +1,6 @@
 __pycache__
 venv
 *.pyi
+.vscode/*
+.mypy_cache/*
+.idea/*
