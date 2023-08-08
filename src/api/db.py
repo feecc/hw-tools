@@ -1,14 +1,17 @@
 import os
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
+from pymongo import MongoClient
+from pymongo.collection import Collection
 
 
 class _MongoWrapper:
     def __init__(self) -> None:
         uri = os.environ.get('MONGO_CONN_STR', 'mongodb://admin:admin@localhost:27017')
         self.db: AsyncIOMotorDatabase = AsyncIOMotorClient(uri)["db"]
+        self.sync_db = MongoClient(uri)["db"]
 
-        self.devices_collection: AsyncIOMotorCollection = self.db["devices"]
+        self.devices_collection: Collection = self.db["devices"]
 
     @staticmethod
     def _prepare_data(entry: dict) -> dict:
@@ -32,6 +35,9 @@ class _MongoWrapper:
         if not data:
             raise ValueError("Not found")
         return self._prepare_data(data)
+
+    def clear(self):
+        self.sync_db.command("dropDatabase")
 
 
 Mongo = _MongoWrapper()

@@ -12,11 +12,14 @@ fastapi = "^0.101.0"
 motor = "^3.2.0"
 pyserial = "^3.5"
 uvicorn = "^0.23.2"
+httpx = "^0.24.1"
+pytest-asyncio = "^0.21.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
 mypy = "^1.4.1"
 flake8 = "^6.1.0"
+pytest = "^7.4.0"
 
 [build-system]
 requires = ["poetry-core"]

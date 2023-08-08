@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db import Mongo
-from devices.virtual.test_scales import testscales
-from handlers import handle_not_found
-from action_port import action_barrier
-
+from src.api.db import Mongo
+from src.api.handlers import handle_not_found
+from src.devices.action_port import action_barrier
+from src.devices.virtual.test_scales import testscales
 
 app = FastAPI()
 app.add_middleware(
