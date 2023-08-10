@@ -6,7 +6,7 @@ class State(str, Enum):
     close = "close"
 
 
-class TestBarrier:
+class VirtualBarrier:
     def __init__(self) -> None:
         self.state: State = State.close
 
@@ -18,4 +18,4 @@ class TestBarrier:
         return self.state
 
 
-testbarrier = TestBarrier()
+virtualbarrier = VirtualBarrier()

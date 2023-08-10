@@ -1,7 +1,7 @@
 import random
 
 
-class TestScales:
+class VirtualScales:
     def __init__(self) -> None:
         self.current_weight: float = 0.0
 
@@ -13,4 +13,4 @@ class TestScales:
         return self.current_weight
 
 
-testscales = TestScales()
+virtualscales = VirtualScales()
