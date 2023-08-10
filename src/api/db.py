@@ -2,16 +2,17 @@ import os
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
 from pymongo import MongoClient
+from pymongo.database import Database
 from pymongo.collection import Collection
 
 
 class _MongoWrapper:
     def __init__(self) -> None:
-        uri = os.environ.get('MONGO_CONN_STR', 'mongodb://admin:admin@localhost:27017')
+        uri = os.environ.get("MONGO_CONN_STR", "mongodb://admin:admin@localhost:27017")
         self.db: AsyncIOMotorDatabase = AsyncIOMotorClient(uri)["db"]
-        self.sync_db = MongoClient(uri)["db"]
+        self.sync_db: Database = MongoClient(uri)["db"]
 
-        self.devices_collection: Collection = self.db["devices"]
+        self.devices_collection: Collection = self.sync_db["devices"]
 
     @staticmethod
     def _prepare_data(entry: dict) -> dict:
@@ -19,19 +20,19 @@ class _MongoWrapper:
         entry["_id"] = str(_id)
         return entry
 
-    async def test_fill_db(self):
-        if await self.devices_collection.count_documents({}) == 0:
+    def test_fill_db(self):
+        if self.devices_collection.count_documents({}) == 0:
             test_devices = list()
             test_devices.append({"name": "testbarrier", "type": "barrier"})
             test_devices.append({"name": "testscales", "type": "scales"})
-            await self.devices_collection.insert_many(test_devices)
+            self.devices_collection.insert_many(test_devices)
 
-    async def get_all(self) -> list[dict]:
-        devices = await self.devices_collection.find({}).to_list(length=None)
-        return list(map(self._prepare_data, devices))
+    def get_all(self) -> list[dict]:
+        devices = self.devices_collection.find({})
+        return list(map(self._prepare_data, list(devices)))
 
-    async def get_by_id(self, id: str) -> dict:
-        data = await self.devices_collection.find_one({"_id": ObjectId(id)})
+    def get_by_id(self, id: str) -> dict:
+        data = self.devices_collection.find_one({"_id": ObjectId(id)})
         if not data:
             raise ValueError("Not found")
         return self._prepare_data(data)

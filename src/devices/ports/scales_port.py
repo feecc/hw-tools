@@ -4,7 +4,6 @@ import serial
 from src.devices.virtual.virtual_scales import virtualscales
 
 
-
 def scales_port(port: serial.Serial) -> None:
     print(port.name, port.is_open)
     while True:

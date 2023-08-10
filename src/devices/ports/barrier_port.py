@@ -7,7 +7,11 @@ from src.devices.virtual.virtual_barrier import virtualbarrier
 def barrier_port(port: serial.Serial) -> None:
     print(port.name, port.is_open)
     while True:
-        command = port.readline().decode().split("\n")[0]
+        if not port.readable():
+            continue
+        command = port.readline().decode()
+        if command:
+            command = command.split("\n")[0]
         print(command)
         match command:
             case "state":
