@@ -12,5 +12,9 @@ class VirtualScales:
     def get_current_weight(self):
         return self.current_weight
 
+    def reset(self):
+        self.current_weight = 0.0
+        return self.current_weight
+
 
 virtualscales = VirtualScales()
