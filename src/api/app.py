@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.db import Mongo
 from src.api.handlers import handle_not_found
 from src.devices import action_port
-from src.devices.virtual.virtual_scales import virtualscales
 
 app = FastAPI()
 app.add_middleware(
@@ -26,7 +25,7 @@ async def get_device_by_id(device_id: str):
         device = Mongo.get_by_id(device_id)
         match device["type"]:
             case "scales":
-                device["data"] = {"weight": action_port.action_scales("current")}
+                device["data"] = {"weight": action_port.action_scales("W0G1")}
             case "barrier":
                 device["data"] = {"state": action_port.action_barrier("state")}
             case _:
@@ -40,7 +39,7 @@ async def startup_action(device_id: str):
         device = Mongo.get_by_id(device_id)
         match device["type"]:
             case "scales":
-                device["data"] = {"weight": action_port.action_scales("check")}
+                device["data"] = {"weight": action_port.action_scales("W0G1")}
             case "barrier":
                 device["data"] = {"state": action_port.action_barrier("change")}
             case _:

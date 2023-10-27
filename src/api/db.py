@@ -23,8 +23,8 @@ class _MongoWrapper:
     def test_fill_db(self):
         if self.devices_collection.count_documents({}) == 0:
             test_devices = list()
-            test_devices.append({"name": "testbarrier", "type": "barrier"})
-            test_devices.append({"name": "testscales", "type": "scales"})
+            test_devices.append({"_id": ObjectId("617e6c454a504cf0d53fc7ee"), "name": "testbarrier", "type": "barrier"})
+            test_devices.append({"_id": ObjectId("617e6c454a504cf0d53fc7f2"), "name": "testscales", "type": "scales"})
             self.devices_collection.insert_many(test_devices)
 
     def get_all(self) -> list[dict]:

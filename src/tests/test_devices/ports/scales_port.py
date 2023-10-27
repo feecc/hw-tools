@@ -1,7 +1,7 @@
 import os
 import serial
 import struct
-from src.devices.virtual.virtual_scales import virtualscales
+from src.tests.test_devices.virtual.virtual_scales import virtualscales
 
 def check_command(command: str):
     if len(command) != 4:
@@ -39,7 +39,7 @@ def scales_port(port: serial.Serial) -> None:
 
 
 if __name__ == "__main__":
-    dev_port = os.environ.get("SCALES_DEV_PORT", "/dev/pts/7")
+    dev_port = os.environ.get("SCALES_DEV_PORT", "/dev/pts/4")
     try:
         with serial.Serial(dev_port, 9600, rtscts=True, dsrdtr=True) as serial_port:
             scales_port(serial_port)
