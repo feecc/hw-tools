@@ -1,19 +1,19 @@
 {
-  "VT-009-terminal": {
-    "1": {
-      "type": "COM",
-      "point": "/dev/pts/5"
-    }
+  "1": {
+    "name": "VT-009-terminal",
+    "point": "/dev/pts/5"
   },
-  "VT-008":  {},
-  "barrier": {
-    "1": {
-      "type": "url",
-      "point": "/test1"
-    },
-    "2": {
-      "type": "url",
-      "point": "/test2"
-    }
+  "2": {
+    "name": "VT-008"
+  },
+  "3": {
+    "name": "barrier",
+    "type": "url",
+    "point": "/test1"
+  },
+  "4": {
+    "name": "barrier",
+    "type": "url",
+    "point": "/test2"
   }
 }

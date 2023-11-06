@@ -10,12 +10,18 @@ class _Config:
 
     @staticmethod
     def parse_config(path: str) -> dict:
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             config = json.loads(f.read())
         return config
 
-    def get_connection_point(self, device: str, number: str) -> str:
-        return self.config[device][number]["point"]
+    def get_connection_point(self, device_id: int) -> str:
+        return self.config[device_id]["point"]
+
+    def get_device_name(self, device_id: int) -> str:
+        return self.config[device_id]["name"]
+
+    def get_device(self, device_id: int) -> dict:
+        return self.config[device_id]
 
 
 Config = _Config("src/devices/config.json")

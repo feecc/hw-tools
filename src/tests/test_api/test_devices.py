@@ -6,9 +6,6 @@ import pytest
 from src.tests import conftest
 
 
-
-
-
 class TestDevices:
     def test_get_devices(self, client, device_barrier, device_scales, device_test):
         resp = client.get("/devices")

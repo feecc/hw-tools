@@ -25,23 +25,32 @@ def client():
 @pytest.fixture(scope="module", autouse=True)
 def sockets(request):
 
-    socat_process_barrier = subprocess.Popen(["socat", "-d", "-d", "pty,raw,echo=0", "pty,raw,echo=0", "&>", "/media/zemljanichka/ubuntudata1/Feecc_test_soft/testsocat/test_stdout"])
- #   socat_process_scales = subprocess.Popen(["socat", "-d", "-d", "pty,raw,echo=0", "pty,raw,echo=0", "&>>", "/media/zemljanichka/ubuntudata1/Feecc_test_soft/testsocat/test_stdout"])
+    socat_process_barrier = subprocess.Popen(
+        [
+            "socat",
+            "-d",
+            "-d",
+            "pty,raw,echo=0",
+            "pty,raw,echo=0",
+            "&>",
+            "/media/zemljanichka/ubuntudata1/Feecc_test_soft/testsocat/test_stdout",
+        ]
+    )
+    #   socat_process_scales = subprocess.Popen(["socat", "-d", "-d", "pty,raw,echo=0", "pty,raw,echo=0", "&>>", "/media/zemljanichka/ubuntudata1/Feecc_test_soft/testsocat/test_stdout"])
 
-  #  print("MEOW")
+    #  print("MEOW")
 
     with open(PORT_PATH) as P:
         ports = P.readlines()
         for port in ports:
             print(port)
             if dev_port := port.find("/dev/pts/"):
-                TEST_PORTS.append(port[dev_port: len(port)-1])
+                TEST_PORTS.append(port[dev_port : len(port) - 1])
 
     # for port in TEST_PORTS:
     #     print(port)
     os.environ["BARRIER_DEV_PORT"] = TEST_PORTS[0]
     os.environ["MIDDLEWARE_DEV_PORT_BARRIER"] = TEST_PORTS[1]
-
 
     def finalize():
         socat_process_barrier.terminate()
@@ -86,8 +95,8 @@ def clear_mongo():
 @pytest.fixture(scope="module")
 def barrier_serial_port():
     dev_port = os.environ.get("BARRIER_DEV_PORT")
-   #  print(TEST_PORTS[0])
-   #  dev_port = TEST_PORTS[0]
+    #  print(TEST_PORTS[0])
+    #  dev_port = TEST_PORTS[0]
     print(1)
     print(TEST_PORTS)
     port = serial.Serial(dev_port, 9600, rtscts=True, dsrdtr=True, timeout=5)

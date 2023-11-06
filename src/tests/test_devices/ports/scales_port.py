@@ -3,14 +3,15 @@ import serial
 import struct
 from src.tests.test_devices.virtual.virtual_scales import virtualscales
 
+
 def check_command(command: str):
     if len(command) != 4:
         return False
-    if command[0] != 'W':
+    if command[0] != "W":
         return False
-    if command[1] != '0':
+    if command[1] != "0":
         return False
-    if command[2] != 'G' and command[2] != 'O':
+    if command[2] != "G" and command[2] != "O":
         return False
     return True
 
@@ -27,7 +28,7 @@ def scales_port(port: serial.Serial) -> None:
             match command[2]:
                 case "G":
                     weight = virtualscales.check_weight()
-                    resp = struct.pack('f', weight)
+                    resp = struct.pack("f", weight)
                     print(weight)
                     port.write(resp)
                 case "O":
