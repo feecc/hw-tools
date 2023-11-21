@@ -1,20 +1,11 @@
 version: '3'
 
 services:
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
 
   hw_api:
     build: .
-    command: uvicorn app:app --host 0.0.0.0 --port 8009
+    command: uvicorn src.api.app:app --host 0.0.0.0 --port 8009
     ports: 
       - 8009:8009
-    depends_on:
-      - mongo
     environment:
       MONGO_CONN_STR: mongodb://admin:admin@mongo:27017

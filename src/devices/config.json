@@ -1,0 +1,19 @@
+{
+  "1": {
+    "name": "VT-009-terminal",
+    "point": "/dev/pts/5"
+  },
+  "2": {
+    "name": "VT-008"
+  },
+  "3": {
+    "name": "barrier",
+    "type": "url",
+    "point": "/test1"
+  },
+  "4": {
+    "name": "barrier",
+    "type": "url",
+    "point": "/test2"
+  }
+}
