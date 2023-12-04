@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class _Config:
@@ -24,4 +25,4 @@ class _Config:
         return self.config[device_id]
 
 
-Config = _Config("src/devices/config.json")
+Config = _Config(os.environ.get("CONFIG_PATH", "configs/devices.json"))

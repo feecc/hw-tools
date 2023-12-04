@@ -17,13 +17,11 @@ def check_command(command: str):
 
 
 def scales_port(port: serial.Serial) -> None:
-    print(port.name, port.is_open)
+    print(port.name, port.is_open, port.readable())
     while True:
-        if not port.readable():
+        command = port.read(4).decode()
+        if not command:
             continue
-        command = port.readline().decode()
-        if command:
-            command = command.split("\n")[0]
         if check_command(command):
             match command[2]:
                 case "G":
@@ -40,7 +38,7 @@ def scales_port(port: serial.Serial) -> None:
 
 
 if __name__ == "__main__":
-    dev_port = os.environ.get("SCALES_DEV_PORT", "/dev/pts/4")
+    dev_port = os.environ.get("SCALES_DEV_PORT", "/dev/pts/8")
     try:
         with serial.Serial(dev_port, 9600, rtscts=True, dsrdtr=True) as serial_port:
             scales_port(serial_port)

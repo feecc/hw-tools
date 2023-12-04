@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.handlers import handle_not_found
-from src.devices.config import Config
-from src.devices.modules.vt009 import Terminal_VT009
+from configs import Config
+from src.devices import VT009
 
 app = FastAPI()
 app.add_middleware(
@@ -25,13 +25,13 @@ async def get_device_by_id(device_id: str):
         device_name = Config.get_device_name(device_id)
         match device_name:
             case "VT-009-terminal":
-                terminal_vt009 = Terminal_VT009(Config.get_device(device_id))
-                data = {"weight": terminal_vt009.contact_device(request_type="get", data_type="weight")}
+                terminal_vt009 = VT009(Config.get_device(device_id))
+                response = {"id" : device_id, "name": device_name, "data": terminal_vt009.contact_device(request_type="get", data_type="weight")}
             case "barrier":
-                data = {"state": action_port.action_barrier("state")}
+                response = {"state": action_port.action_barrier("state")}
             case _:
                 raise ValueError("No instructions for device")
-    return data
+    return response
 
 
 @app.post("/devices/{device_id}", description="Отправка устройству команды на действие")
