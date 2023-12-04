@@ -6,7 +6,7 @@ class VirtualScales:
         self.current_weight: float = 0.0
 
     def check_weight(self):
-        self.current_weight = round(random.uniform(0, 999.999), 3)
+        self.current_weight = round(random.uniform(-2, 70), 2)
         return self.current_weight
 
     def get_current_weight(self):

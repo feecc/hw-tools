@@ -8,4 +8,7 @@ services:
     ports: 
       - 8009:8009
     environment:
-      MONGO_CONN_STR: mongodb://admin:admin@mongo:27017
+      CONFIG_PATH: './configs/devices.json'
+    volumes:
+      - '/dev/ttyS3:/dev/ttyS3'
+    privileged: true
