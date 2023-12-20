@@ -4,14 +4,9 @@
     "point": "/dev/ttyS3"
   },
   "2": {
-    "name": "VT-008"
-  },
-  "3": {
     "name": "barrier",
-    "point": "/test1"
-  },
-  "4": {
-    "name": "barrier",
-    "point": "/test2"
+    "point": "http://192.168.88.236/out.cgi?out2=f,1",
+    "login": "visor",
+    "password": "ping"
   }
 }
