@@ -33,7 +33,7 @@ class Terminal_VT009:
             command=command,
         )
         response = struct.unpack(self.commands[request_type][data_type]["response_format"], response)[0]
-        if response < 10:
+        if response < 2:
             raise ValueError(f'Unexpected response {response}')
         response = str(round(response, 3)) + "0"
         return response

@@ -5,7 +5,7 @@
   },
   "2": {
     "name": "barrier",
-    "point": "http://192.168.88.236/out.cgi?out2=f,1",
+    "point": "http://192.168.88.236",
     "login": "visor",
     "password": "ping"
   }

@@ -29,7 +29,7 @@ async def get_device_by_id(device_id: str):
                 response = {"id" : device_id, "name": device_name, "data": device.contact_device(request_type="get", data_type="weight")}
             case "barrier":
                 device = Barrier(Config.get_device(device_id))
-                response = {"id" : device_id, "name": device_name, "data": device.contact_device()}
+                response = {"id" : device_id, "name": device_name, "data": device.contact_device(request_type="get")}
             case _:
                 raise ValueError("No instructions for device")
     return response
@@ -38,12 +38,13 @@ async def get_device_by_id(device_id: str):
 @app.post("/devices/{device_id}", description="Отправка устройству команды на действие")
 async def startup_action(device_id: str):
     with handle_not_found():
-        device = Config
-        match device["type"]:
-            case "scales":
-                device["data"] = {"weight": action_port.action_scales("W0G1")}
+        device_name = Config.get_device_name(device_id)
+        match device_name:
+            case "VT-009-terminal":
+                pass
             case "barrier":
-                device["data"] = {"state": action_port.action_barrier("change")}
+                device = Barrier(Config.get_device(device_id))
+                response = {"id": device_id, "name": device_name, "data": device.contact_device("post")}
             case _:
                 raise ValueError("No instructions for device")
-    return device
+    return response

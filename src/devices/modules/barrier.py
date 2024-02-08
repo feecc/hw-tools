@@ -7,10 +7,11 @@ class Barrier:
         self.url = data["point"]
         self.login = data["login"]
         self.password = data["password"]
+        self.path = {"post": "/out.cgi?out2=f,1", "get": "/in.cgi"}
 
-    def contact_device(self):
+    def contact_device(self, request_type: str):
         response = action_netping(
-            url=self.url,
+            url=self.url+self.path[request_type],
             login=self.login,
             passwd=self.password
         )
