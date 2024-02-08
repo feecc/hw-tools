@@ -16,6 +16,7 @@ FROM python:3.10
 WORKDIR /src
 COPY --from=requirements-stage /tmp/requirements.txt /src/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /src/requirements.txt
+RUN pip install requests
 COPY . /src
 COPY --from=requirements-stage /tmp/version.txt /src/version.txt
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s --retries=12 \
